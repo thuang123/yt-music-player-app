@@ -6,7 +6,10 @@ import VideoList from './components/VideoList';
 import VideoDetail from './components/VideoDetail';
 
 // Add API keys here before running
-const YT_API_KEY = '';
+export const API_KEYS = {
+    YT_API_KEY : '',
+    YT_MP3_API_KEY : ''
+};
 
 class App extends Component {
     constructor(props) {
@@ -18,7 +21,7 @@ class App extends Component {
     }
 
     videoSearch(term) {
-        YTSearch({key: YT_API_KEY, term: term}, (data) => {
+        YTSearch({key: API_KEYS.YT_API_KEY, term: term}, (data) => {
             console.log(term);
             this.setState({
                 videos: data,
@@ -31,6 +34,7 @@ class App extends Component {
         return (
             <div>
                 <SearchBar onSubmit={searchTerm => this.videoSearch(searchTerm)}/>
+                <br></br>
                 <VideoDetail video={this.state.selectedVideo}/>
                 <VideoList
                     onVideoSelect={userSelected => this.setState({selectedVideo: userSelected})}
