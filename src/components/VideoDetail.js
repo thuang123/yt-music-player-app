@@ -8,7 +8,7 @@ const VideoDetail = (props) => {
         return <div></div>;
     }
 
-    const videoId = video.id.videoId;
+    const videoId = video.contentDetails ? video.contentDetails.videoId : video.id.videoId;
     const videoUrl = `https://www.youtube.com/embed/${videoId}`;
     const downloadUrl = `https://www.download-mp3-youtube.com/api/?api_key=${App.API_KEYS.YT_MP3_API_KEY}&format=mp3&video_id=${videoId}`;
 
