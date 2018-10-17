@@ -1,28 +1,43 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
-import './App.css';
+import YTSearch from 'youtube-api-search';
+
+import SearchBar from './components/SearchBar';
+import VideoList from './components/VideoList';
+import VideoDetail from './components/VideoDetail';
+
+// Add API keys here before running
+const YT_API_KEY = '';
 
 class App extends Component {
-  render() {
-    return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            Edit <code>src/App.js</code> and save to reload.
-          </p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-        </header>
-      </div>
-    );
-  }
+    constructor(props) {
+        super(props);
+        this.state = {
+            videos: [],
+            selectedVideo: null
+        };
+    }
+
+    videoSearch(term) {
+        YTSearch({key: YT_API_KEY, term: term}, (data) => {
+            console.log(term);
+            this.setState({
+                videos: data,
+                selectedVideo: data[0]
+            });
+        });
+    }
+
+    render() {
+        return (
+            <div>
+                <SearchBar onSubmit={searchTerm => this.videoSearch(searchTerm)}/>
+                <VideoDetail video={this.state.selectedVideo}/>
+                <VideoList
+                    onVideoSelect={userSelected => this.setState({selectedVideo: userSelected})}
+                    videos={this.state.videos} />
+            </div>
+        );
+    }
 }
 
 export default App;
